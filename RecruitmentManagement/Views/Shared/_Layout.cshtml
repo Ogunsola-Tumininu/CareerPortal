@@ -1,0 +1,101 @@
+﻿@using RecruitmentManagement.DAL;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body style="background-color: #EEF2F6">
+    <div class="navbar navbar-default navbar-fixed-top" style="background-color: #03b2ac; ">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" style="color: white !important">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="@Url.Action("Index", "Home")" ><img src="~/Content/img/pal-logo.PNG" style="height: 50px"/></a>
+                @*@Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav"  >
+                    @*<li>@Html.ActionLink("Home", "Index", "Vacancies")</li>
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    @{
+
+        Entities1 db = new Entities1();
+        var vacancies = db.Vacancies.ToList();
+        var departments = db.Departments.ToList();
+
+    }
+    <div class="container body-content" >
+        <div class="row">
+            <div class="col-md-3" style="margin-top: 20px">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Filter Result</div>
+                    <div class="panel-body" id="side-nav">
+                        <p><b>By Region</b></p>
+                        <a href="@Url.Action("Index", "Home", new { Region = "1"})"><small>South East (@vacancies.Where(v => v.JobRegion == "1").Count()) </small><br /></a>
+                        <a href="@Url.Action("Index", "Home", new { Region = "2"})"><small>South South (@vacancies.Where(v => v.JobRegion == "2").Count())</small><br /></a>
+                        <a href="@Url.Action("Index", "Home", new { Region = "3"})"><small>South West (@vacancies.Where(v => v.JobRegion == "3").Count())</small><br /></a>
+                        <a href="@Url.Action("Index", "Home", new { Region = "4"})"><small>North East (@vacancies.Where(v => v.JobRegion == "4").Count())</small><br /></a>
+                        <a href="@Url.Action("Index", "Home", new { Region = "5"})"><small>North Central (@vacancies.Where(v => v.JobRegion == "5").Count())</small><br /></a>
+                        <a href="@Url.Action("Index", "Home", new { Region = "6"})"><small>North West (@vacancies.Where(v => v.JobRegion == "6").Count())</small><br /><hr /></a>
+
+                        <p><b>By Level</b></p>
+                        <a href="@Url.Action("Index", "Home", new { Level = "Director"})"><small>Director (@vacancies.Where(v => v.Level == "Director").Count())</small><br /></a>
+                        <a href="@Url.Action("Index", "Home", new { Level = "SeniorManager"})"><small>Senior Manager (@vacancies.Where(v => v.Level == "Senior Manager").Count())</small><br /></a>
+                        <a href="@Url.Action("Index", "Home", new { Level = "Executive"})"><small>Executive (@vacancies.Where(v => v.Level == "Executive").Count())</small><br /></a>
+                        <a href="@Url.Action("Index", "Home", new { Level = "Entry"})"><small>Entry (@vacancies.Where(v => v.Level == "Entry").Count())</small><br /></a>
+                        <a href="@Url.Action("Index", "Home", new { Level = "Others"})"><small>Others (@vacancies.Where(v => v.Level == "Others").Count())</small><br /><hr /></a>
+
+                        <p><b>By Department</b></p>
+                        @foreach(var dept in departments)
+                        {
+                        <a href="@Url.Action("Index", "Home", new { dept = dept.Id.ToString()})"><small>@dept.Name (@vacancies.Where(v => v.Department == dept.Id.ToString()).Count())</small><br /></a>
+                        }
+                        <hr />
+
+                        <p><b>By Type</b></p>
+                        <a href="@Url.Action("Index", "Home", new { emptype = "fullTime"})"><small>Full time (@vacancies.Where(v => v.EmploymentType == "fullTime").Count())</small><br /></a>
+                        <a href="@Url.Action("Index", "Home", new { emptype = "contract"})"><small>Contract (@vacancies.Where(v => v.EmploymentType == "contract").Count())</small></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                @RenderBody()
+            </div>
+
+        </div>
+
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    <script>
+        $(document).ready(function () {
+            $("#eduAlert").ready(function () {
+                setTimeout(function () {
+                    $(".alert").hide();
+                }, 10000);
+            })
+        })
+
+    </script>
+</body>
+</html>

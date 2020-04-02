@@ -1,0 +1,159 @@
+﻿@model RecruitmentManagement.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - PAL Pensions</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body style="position: relative; overflow-y:hidden ; margin-top: -50px;">
+
+    <div class="col-md-12" style="padding: 0;height:100vh !important">
+        <div class="col-md-8 hidden-xs hidden-sm loginImage" style="position: relative;">
+            <div class="circle"> </div>
+            <div class="circle2"> </div>
+
+            <div class="img-div1" style="display: block">
+                @*<img src="~/Content/images/Group27.png" />*@
+                <img src="~/Content/img/Group582.png" style="width: 30%" />
+                <h4> <b>Welcome to PAL Pensions</b></h4>
+                <p style="color: darkslateblue">Your Padi of life</p>
+            </div>
+            <div class="img-div2">
+                <img src="~/Content/img/Group1.png" style="width: 70%" />
+                <h4><b>Plan Your Finances</b></h4>
+                <p style="color: darkslateblue">We use Simple tools to plan your tommorrow</p>
+            </div>
+
+            <div class="img-div3">
+                <img src="~/Content/img/Group27.png" style="width: 70%" />
+                <h4><b>Save For The Future</b></h4>
+                <p style="color: darkslateblue">Save towards goals and learn financial growth along the way until retirement</p>
+            </div>
+            <div class="img-div4">
+                <img src="~/Content/img/Group1.png" style="width: 70%" />
+                <h4><b>Save For The Future</b></h4>
+                <p style="color: darkslateblue">Save towards goals and learn financial growth along the way until retirement</p>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12 login">
+            <div style="background-color: white !important; padding: 25px; padding-top: 25%; height: 100%; ">
+                <div class="title">
+                    <img src="~/Content/img/PALLogo.png" style="width: 40%" />
+                    <br />
+                    <h3>Create a new account</h3>
+                </div>
+                @if (ViewBag.EmailNotConfirmed != null)
+    {
+            <div class="alert alert-danger">@ViewBag.EmailNotConfirmed</div>
+}
+
+                @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            <div class="form-group  ">
+                <div class="col-md-12">
+                    @Html.LabelFor(m => m.Email, new { @class = "control-label " })
+                </div>
+                <div class="col-md-12">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control ", id = "email" })
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group  ">
+                <div class="col-md-12">
+                    @Html.LabelFor(m => m.Password, new { @class = "control-label " })
+                </div>
+                <div class="col-md-12">
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control " })
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group  ">
+                <div class="col-md-12">
+                    @Html.LabelFor(m => m.ConfirmPassword, new { @class = "control-label " })
+                </div>
+                <div class="col-md-12">
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control " })
+                    @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-primary btn-block ">Register</button>
+                </div>
+            </div>
+}
+                <div class="register">
+                    @*<span class="text">Forgot Password? Please Click</span><br>*@
+                    @Html.ActionLink("Click here to login ", "Login")
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+
+</body>
+
+</html>
+
+
+@*@model RecruitmentManagement.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Create a new account.</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Register" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}*@

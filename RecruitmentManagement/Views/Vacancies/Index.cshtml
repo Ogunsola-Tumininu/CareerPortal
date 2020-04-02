@@ -1,0 +1,145 @@
+﻿@model IEnumerable<RecruitmentManagement.DAL.Vacancy>
+@using RecruitmentManagement.DAL;
+
+@{
+    ViewBag.Title = "Index";
+    Entities1 db = new Entities1();
+    var regions = db.Regions.ToList();
+    var departments = db.Departments.ToList();
+}
+
+<div class="content">
+    <div style="padding: 20px; padding-top:10px">
+        <h3>
+            Vacancy Lists
+            <a href="@Url.Action("Create", "Vacancies")" class="btn btn-pal pull-right ">Create New</a>
+        </h3>
+
+    </div>
+</div>
+
+@*@using (Html.BeginForm("Upload", "Vacancies", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {<table class="table table-striped">
+            <tr>
+                <td> File: </td>
+                <td>
+                    <input type="file" name="UploadedFile" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" class="btn btn-primary" name="Submit" value="Submit" />
+                </td>
+            </tr>
+        </table>
+    }*@
+
+<div class="content">
+    <div style="padding: 20px; padding-top:10px">
+        <table class="table table-hover" id="table_id">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Title)
+                    </th>
+                    <th>
+                        No of App
+                    </th>
+                    <th>
+                        Region
+                        @*@Html.DisplayNameFor(model => model.JobRegion)*@
+                    </th>
+                    <th>
+                        Location
+                        @*@Html.DisplayNameFor(model => model.JobLocation)*@
+                    </th>
+                    <th>
+                        Department
+                        @*@Html.DisplayNameFor(model => model.Department)*@
+                    </th>
+                    <th>
+                        @*@Html.DisplayNameFor(model => model.EmploymentType)*@
+                        Type
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Level)
+                    </th>
+                    <th>
+                        Qual.
+                        @*@Html.DisplayNameFor(model => model.Qualification)*@
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Deadline)
+                    </th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        <a href="@Url.Action("ApplicantList", "Vacancies", new { VacancyId = item.Id })">@db.VacancyPostActivities.Where(v => v.VacancyId == item.Id).Count()</a>
+                        
+                    </td>
+                    <td>
+                        @*@Html.DisplayFor(modelItem => item.JobRegion)*@
+                        @if (item.JobRegion != null)
+                        {
+                            @regions.Where(r => r.Id == Convert.ToInt32(item.JobRegion)).First().Name
+                        }
+                        
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.JobLocation)
+                    </td>
+                    <td>
+                        @*@Html.DisplayFor(modelItem => item.Department)*@
+                        @if (item.Department != null)
+                        {
+                            @departments.Where(d => d.Id == Convert.ToInt32(item.Department)).First().Name
+                        }
+                        
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EmploymentType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Level)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Qualification)
+                    </td>
+                    <td>
+                        @*@Html.DisplayFor(modelItem => item.Deadline)*@
+                        @String.Format("{0:MM/dd/yyyy}", item.Deadline)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+@section Scripts{
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#table_id').DataTable({
+                "scrollX": true,
+                "ordering": false
+            });
+        });
+    </script>
+}
+

@@ -1,0 +1,75 @@
+﻿@model IEnumerable<RecruitmentManagement.DAL.VacancyPostActivity>
+@using RecruitmentManagement.DAL;
+
+@{
+    ViewBag.Title = "ApplicantList";
+}
+
+<div class="content">
+    <div style="padding: 20px; padding-top: 10px">
+        <h3>
+            Applicants List
+        </h3>
+    </div>
+</div>
+
+<div class="content">
+    <div style="padding: 20px">
+        <table class="table" id="table_id">
+            <thead>
+                <tr>
+                    <th> Name </th>
+                    <th> University</th>
+                    <th> Course</th>
+                    <th> Grade </th>
+                    <th> Age </th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            @foreach (var item in Model)
+            {
+
+                Entities1 db = new Entities1();
+                var profile = db.Profiles.Where(p => p.UserId == item.UserId).FirstOrDefault();
+                var education = db.EducationDetails.Where(e => e.UserId == item.UserId && e.Qualification == "MSc").FirstOrDefault();
+                if (education == null)
+                {
+                    education = db.EducationDetails.Where(e => e.UserId == item.UserId && e.Qualification == "BSc").FirstOrDefault();
+                }
+
+                <tr>
+                    <td>@profile.FirstName @profile.Surname</td>
+                    <td>@education.University</td>
+                    <td>@education.Course</td>
+                    <td>@education.Grade</td>
+                    @{
+                        var age = DateTime.Now.Subtract((DateTime)profile.dob).Days / (365.25);
+                        //age = Math.Round(age, 0);
+                        age = Math.Floor(age);
+                    }
+                    
+                    <td> @age  years</td>
+                    <td><a href="@Url.Action("ApplicantProfile","Vacancies", new { userId = item.UserId })">More >>></a> </td>
+                </tr>
+            }
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+<link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+@section Scripts{
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#table_id').DataTable({
+                
+                "ordering": false
+            });
+        });
+    </script>
+}
+

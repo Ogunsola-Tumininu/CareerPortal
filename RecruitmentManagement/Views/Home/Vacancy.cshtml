@@ -1,0 +1,184 @@
+﻿@model RecruitmentManagement.DAL.Vacancy
+@using RecruitmentManagement.DAL;
+@using Microsoft.AspNet.Identity;
+
+@{
+    ViewBag.Title = "Vacancy";
+
+    var region = "";
+    if (Model.JobRegion == "1")
+    {
+        region = "South East";
+    }
+    if (Model.JobRegion == "2")
+    {
+        region = "South South";
+    }
+    if (Model.JobRegion == "3")
+    {
+        region = "South West";
+    }
+    if (Model.JobRegion == "4")
+    {
+        region = "North East";
+    }
+    if (Model.JobRegion == "5")
+    {
+        region = "North Central";
+    }
+    if (Model.JobRegion == "6")
+    {
+        region = "North West";
+    }
+}
+
+<div class="content">
+    <div style="padding: 20px">
+        <h3>
+            Vacancy Details
+            @{
+                Entities1 db = new Entities1();
+                var userId = User.Identity.GetUserId();
+                var applied = db.VacancyPostActivities.Where(v => v.UserId == userId && v.VacancyId == (int)Model.Id).Count();
+            }
+            @{ 
+                if (applied == 0)
+                {
+                 <a href="@Url.Action("UserProfile", "Home", new { VacancyId = Model.Id })" class="btn btn-pal pull-right ">Apply</a>
+                }
+                else {
+                    <small class="pull-right text-danger">You have already applied</small>
+                  }
+                }
+        </h3>
+
+    </div>
+</div>
+
+<div class="content">
+    <div style="padding: 20px">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Qualification)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Qualification)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.JobRegion)
+            </dt>
+
+            <dd>
+                @region
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.JobLocation)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.JobLocation)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.EmploymentType)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.EmploymentType)
+            </dd>
+
+            @if (Model.EmploymentType == "contract")
+            {
+                <dt>
+                    @Html.DisplayNameFor(model => model.Duration)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Duration) Months
+                </dd>
+            }
+
+            @*<dt>
+                    @Html.DisplayNameFor(model => model.Department)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Department)
+                </dd>*@
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Level)
+            </dt>
+
+            <dd>
+                <p> @Html.DisplayFor(model => model.Level)</p>
+
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+
+            <dd>
+                <p> @Html.DisplayFor(model => model.Description)</p>
+            </dd>
+
+            <dt>
+                Functions
+            </dt>
+
+            <dd>
+                @if (ViewBag.VacancyFunctions.Count > 0)
+                {
+                    foreach (var item in ViewBag.VacancyFunctions)
+                    {
+                        <p>@item.FunctionDescription</p>
+
+                    }
+                }
+
+            </dd>
+
+            <dt>
+                Requirements
+            </dt>
+
+            <dd>
+                @if (ViewBag.VacancyRequirements.Count > 0)
+                {
+                    foreach (var item in ViewBag.VacancyRequirements)
+                    {
+                        <p>@item.RequirementDescription</p>
+
+                    }
+                }
+
+
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Deadline)
+            </dt>
+
+            <dd>
+                @String.Format("{0:dd MMMM yyyy}", Model.Deadline)
+            </dd>
+
+
+
+        </dl>
+
+    </div>
+</div>
+

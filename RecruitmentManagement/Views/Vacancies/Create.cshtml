@@ -1,0 +1,349 @@
+﻿@model RecruitmentManagement.DAL.Vacancy
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<div class="content">
+    <div style="padding: 20px; padding-top:10px">
+        <h3>
+            Create Vacancy
+        </h3>
+    </div>
+</div>
+
+<div class="content " style="padding: 20px !important; padding-top:40px !important">
+    <div class="row">
+        <div class="col-md-9">
+            @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Job Title", required = "required" } })
+                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.JobRegion, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.JobRegion, ViewBag.JobRegion as SelectList, new { @class = "form-control", required = "required" })
+                        @*@Html.DropDownList("JobRegion", (IEnumerable<SelectListItem>)ViewData["JobRegion"], "--Select Region--", new { @class = "form-control", required = "required" })*@
+                        @Html.ValidationMessageFor(model => model.JobRegion, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.JobLocation, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <select class="form-control" id="JobLocation" name="JobLocation" required>
+                            <option>--Select Location--</option>
+                        </select>
+                        @*@Html.EditorFor(model => model.JobLocation, new { htmlAttributes = new { @class = "form-control" } })*@
+                        @Html.ValidationMessageFor(model => model.JobLocation, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Department, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @*@Html.EditorFor(model => model.Department, new { htmlAttributes = new { @class = "form-control" } })*@
+                        @*@Html.DropDownList("Department", (IEnumerable<SelectListItem>)ViewData["JobDepartment"], "--Select Department--", new { @class = "form-control", required = "required" })*@
+
+                        @Html.DropDownListFor(model => model.Department, ViewBag.JobDepartment as SelectList, "--Select Department--", new { @class = "form-control", required = "required" })
+
+                        @Html.ValidationMessageFor(model => model.Department, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Qualification, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.Qualification, new List<SelectListItem>
+            {
+            new SelectListItem{ Text="--Select Qualification-- ", Value = "" },
+            new SelectListItem{ Text="B Sc", Value = "BSc" },
+            new SelectListItem{ Text="Master", Value = "Master" },
+            new SelectListItem{ Text="Others", Value = "Others" },
+
+            }, new { @class = "form-control", required = "required" })
+                        @Html.ValidationMessageFor(model => model.Qualification, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @*@Html.LabelFor(model => model.EmploymentType, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                    <label for="EmploymentType" class="control-label col-md-2">Employment Type</label>
+                    <div class="col-md-10">
+                        @Html.DropDownList("EmploymentType", new List<SelectListItem>
+            {
+            new SelectListItem{ Text="--Select Employment Type-- ", Value = "" },
+            new SelectListItem{ Text="Full Time", Value = "fullTime" },
+            new SelectListItem{ Text="Contract", Value = "contract" }
+
+            }, new { @class = "form-control", required = "required" })
+                        @Html.ValidationMessageFor(model => model.EmploymentType, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group" id="durationDiv" style="display: none">
+                    @Html.LabelFor(model => model.Duration, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Duration" } })
+                        @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Level, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @*@Html.EditorFor(model => model.Level, new { htmlAttributes = new { @class = "form-control" } })*@
+                        @Html.DropDownList("Level", new List<SelectListItem>
+            {
+            new SelectListItem{ Text="--Select Level-- ", Value = "" },
+            new SelectListItem{ Text="Director", Value = "Director" },
+            new SelectListItem{ Text="Senior Manager", Value = "SeniorManager" },
+            new SelectListItem{ Text="Executive", Value = "Executive" },
+            new SelectListItem{ Text="Entry", Value = "Entry" },
+            new SelectListItem{ Text="Others", Value = "Others" },
+
+            }, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Level, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2", @placeholder = "Enter Job description", required = "required" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = 5 })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-10 col-md-offset-2" id="jobFunctionsList">
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Function</label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" id="vacancyFunction" name="vacancyFunction" placeholder="Enter Vacancy Function" /><br />
+                        <a href="#" id="add" class="btn btn-default btn-sm col-md-3">Add Function</a>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-10 col-md-offset-2" id="jobReqsList">
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Requirement</label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" id="vacancyReq" name="vacancyReq" placeholder="Enter Vacancy Requirement" /><br />
+                        <a href="#" id="addReq" class="btn btn-default btn-sm col-md-3">Add Requirement</a>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Deadline, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Deadline, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                        @Html.ValidationMessageFor(model => model.Deadline, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <a href="#" class="btn btn-success" id="submitForm">Create</a>
+                        @*<input type="submit" value="Create" class="btn btn-default" />*@
+                    </div>
+                </div>
+            </div>
+}
+
+            <div>
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        var allFunctions = [];
+        var allRequirements = [];
+
+        $("#EmploymentType").change(function () {
+            if ($("#EmploymentType").val() === "contract") {
+                $("#durationDiv").show();
+            } else {
+                $("#durationDiv").hide();
+            }
+        })
+
+        $("#JobRegion").change(function () {
+            const regionId = $("#JobRegion").val();
+            $.ajax({
+                url: '/Vacancies/Location/' + regionId,
+                type: 'GET',
+                dataType: 'json',
+                cache: false,
+                success: function (res) {
+                    //console.log(res);
+                    var locations = document.getElementById("JobLocation");
+                    $('#JobLocation')
+                        .empty()
+                        .append('<option >--Select Location--</option>');
+
+                    for (var i = 0; i < res.length; i++) {
+                        var opt = document.createElement('option');
+                        //console.log(res[i].Id);
+                        opt.value = res[i].Name;
+                        opt.innerHTML = res[i].Name;
+                        locations.appendChild(opt);
+                    }
+
+                },
+                error: function (err) {
+                    //alert('Error occured while fetch notification');
+                    console.log(err)
+                }
+            });
+        })
+
+        $("#add").click(function (e) {
+            e.preventDefault();
+            if ($("#vacancyFunction").val() == "") {
+                alert("Please enter vacancy function")
+                return;
+            }
+            var func = $("#vacancyFunction").val();
+            $("#jobFunctionsList").append("<div><p>" + $("#vacancyFunction").val() + '<a onclick="delFunc(\'' + func + '\')" class="delFunc pull-right">delete<a></p> </div>')
+            allFunctions.push($("#vacancyFunction").val());
+            $("#vacancyFunction").val("");
+
+            //console.log(allFunctions);
+        })
+
+        $("#addReq").click(function (e) {
+            e.preventDefault();
+            if ($("#vacancyReq").val() == "") {
+                alert("Please enter vacancy requirement.")
+                return;
+            }
+            var req = $("#vacancyReq").val();
+            $("#jobReqsList").append("<div><p>" + $("#vacancyReq").val() + '<a onclick="delReq(\'' + req + '\')" class="delReq pull-right">delete<a></p> </div>')
+            allRequirements.push($("#vacancyReq").val());
+            $("#vacancyReq").val("");
+            
+        })
+
+        function delFunc(func) {
+            $("p:contains(" + func + ")").parent().hide();
+            for (var i = 0; i < allFunctions.length; i++)
+            {
+                if (allFunctions[i] == func)
+                {
+                    allFunctions.splice(i, 1);
+                }
+            }
+        }
+
+        function delReq(req) {
+            $("p:contains(" + req + ")").parent().hide();
+            for (var i = 0; i < allRequirements.length; i++) {
+                if (allRequirements[i] == func) {
+                    allRequirements.splice(i, 1);
+                }
+            }
+        }
+        
+        $("#submitForm").click(function () {
+            
+            $.ajax({
+                url: '/Vacancies/Create',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    Title: $("#Title").val(),
+                    JobRegion: $("#JobRegion").val(),
+                    JobLocation: $("#JobLocation").val(),
+                    Department: $("#Department").val(),
+                    EmploymentType: $("#EmploymentType").val(),
+                    Duration: $("#Duration").val(),
+                    Level: $("#Level").val(),
+                    Description: $("#Description").val(),
+                    Qualification: $("#Qualification").val(),
+                    Deadline: $("#Deadline").val(),
+
+                },
+                success: function (res) {
+                    console.log(res);
+                    for (var i = 0; i < allFunctions.length; i++) {
+                        $.ajax({
+                            url: '/Vacancies/JobFunction',
+                            type: 'Post',
+                            dataType: 'json',
+                            data: {
+                                jobFunction: allFunctions[i],
+                                Id: res.Result
+                            },
+                            cache: false,
+                            success: function (res) {
+
+                            },
+                            error: function (err) {
+                                //alert('Error occured while fetch notification');
+                                console.log(err)
+                            }
+                        });
+                    }
+
+                    for (var i = 0; i < allRequirements.length; i++) {
+                        $.ajax({
+                            url: '/Vacancies/JobRequirement',
+                            type: 'Post',
+                            dataType: 'json',
+                            data: {
+                                jobRequirement: allRequirements[i],
+                                Id: res.Result
+                            },
+                            cache: false,
+                            success: function (res) {
+
+                            },
+                            error: function (err) {
+                                //alert('Error occured while fetch notification');
+                                console.log(err)
+                            }
+                        });
+                    }
+                    window.open("/Vacancies", "_self")
+                },
+                error: function (err) {
+                    //alert('Error occured while fetch notification');
+                    console.log("Big Server Error",err)
+                }
+            });
+
+        })
+
+    </script>
+}

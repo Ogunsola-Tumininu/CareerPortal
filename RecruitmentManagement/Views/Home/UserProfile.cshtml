@@ -1,0 +1,850 @@
+﻿@model RecruitmentManagement.DAL.Profile
+
+@{
+    ViewBag.Title = "UserProfile";
+}
+
+<div class="content">
+    <div style="padding: 15px">
+        <h3>User Profile Form</h3>
+    </div>
+</div>
+
+<div class="content">
+    <div style="padding: 20px">
+        <div class="container">
+            <div class="stepwizard">
+                <div class="stepwizard-row setup-panel">
+                    <div class="stepwizard-step col-xs-3">
+                        <a href="#step-1" type="button" class="btn btn-pal btn-circle">1</a>
+                        <p><small>Personal Information</small></p>
+                    </div>
+                    <div class="stepwizard-step col-xs-3">
+                        <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+                        <p><small>Education</small></p>
+                    </div>
+                    <div class="stepwizard-step col-xs-3">
+                        <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+                        <p><small>Experience</small></p>
+                    </div>
+                    <div class="stepwizard-step col-xs-3">
+                        <a href="#step-4" type="button" class="btn btn-default btn-circle" disabled="disabled">4</a>
+                        <p><small>Upload Document</small></p>
+                    </div>
+                </div>
+            </div>
+
+            @using (Html.BeginForm("UserProfile", "Home", new { VacancyId = ViewBag.VacancyId }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="panel panel-default setup-content" id="step-1">
+                    <div class="panel-heading " style="background-color: #03b2ac; color: white">
+                        <h3 class="panel-title">Personal Information</h3>
+                    </div>
+                    <div class="panel-body">
+                        @if (ViewBag.ErrorMessage != null)
+                        {
+                            <p class="alert alert-danger" style="color: black">@ViewBag.ErrorMessage</p>
+                        }
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group col-md-4">
+                                    <div>
+                                        @Html.LabelFor(m => m.FirstName, new { @class = "control-label " })
+                                    </div>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control ", @placeholder = "Enter Firstname", required = "required" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <div>
+                                        @Html.LabelFor(m => m.OtherName, new { @class = "control-label" })
+
+                                    </div>
+                                    <div style="margin-right: 0">
+                                        @Html.TextBoxFor(m => m.OtherName, new { @class = "form-control", @placeholder = "Enter Othername" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <div>
+                                        @Html.LabelFor(m => m.Surname, new { @class = "control-label " })
+                                    </div>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.Surname, new { @class = "form-control ", @placeholder = "Enter Surname", required = "required" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group col-md-7">
+                                    <div>
+                                        @Html.LabelFor(m => m.email, new { @class = "control-label " })
+                                    </div>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.email, new { @class = "form-control ", @placeholder = "Enter email", @type = "email", @readonly = "readonly", Value = ViewBag.User.Email })
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-5">
+                                    <div>
+                                        @Html.LabelFor(m => m.MobileNumber, new { @class = "control-label" })
+
+                                    </div>
+                                    <div style="margin-right: 0">
+                                        @Html.TextBoxFor(m => m.MobileNumber, new { @class = "form-control", @placeholder = "Enter Mobile Number", maxlength = "14", required = "required" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group col-md-12">
+                                    <div>
+                                        @Html.LabelFor(m => m.Address, new { @class = "control-label " })
+                                    </div>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.Address, new { @class = "form-control ", @placeholder = "Enter Contact Address", required = "required" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group col-md-4">
+                                    <div>
+                                        @*@Html.LabelFor(m => m.dob, new { @class = "control-label " })*@
+                                        <label for="dob" class="control-label">Date of Birth </label>
+                                    </div>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.dob, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", placeholder = "mm/dd/yyyy", required = "required" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <div>
+                                        @Html.LabelFor(m => m.Gender, new { @class = "control-label" })
+
+                                    </div>
+                                    <div style="margin-right: 0">
+                                        @Html.DropDownListFor(model => model.Gender, new List<SelectListItem>
+                                                                                                                                                                {
+                                                                                                                                                                new SelectListItem{ Text="--Select Gender-- ", Value = "" },
+                                                                                                                                                                new SelectListItem{ Text="Male", Value = "Male" },
+                                                                                                                                                                new SelectListItem{ Text="Female", Value = "Female" }
+
+                                                                                                                                                                }, new { @class = "form-control", required = "required" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <div>
+                                        @Html.LabelFor(m => m.StateOfOrigin, new { @class = "signin-label " })
+                                    </div>
+                                    <div>
+                                        @Html.DropDownListFor(model => model.StateOfOrigin, ViewBag.States as SelectList, "--Select State of Origin--", new { @class = "form-control", required = "required" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
+                    </div>
+                </div>
+
+                <div class="panel panel-primary setup-content" id="step-2">
+                    <div class="panel-heading" style="background-color: #03b2ac; color: white">
+                        <h3 class="panel-title">Education</h3>
+                    </div>
+                    <div class="col-md-12">
+                        <br />
+                        <p class="alert alert-danger" id="eduAlert" style="display: none"> Enter all field to add Institution</p>
+                        <div style="border: 1px solid gray; border-radius: 20px">
+                            <table class="table table-responsive" id="eduList">
+                                <tr>
+                                    <th>Institution </th>
+                                    <th>Course </th>
+                                    <th>Qualification </th>
+                                    <th>Grade </th>
+                                    <th>Action</th>
+                                </tr>
+
+
+                                @if (ViewBag.Education.Count > 0)
+            {
+                foreach (var item in ViewBag.Education)
+                {
+                    <tr id='@item.Id'>
+                        <td> @item.University </td>
+                        <td> @item.Course </td>
+                        <td> @item.Qualification</td>
+                        <td> @item.Grade</td>
+                        <td><a onclick="delServerEdu(@item.Id)" class="delFunc pull-right">delete</a>
+                        <td>
+                    </tr>
+}
+}
+
+                            </table>
+                        </div>
+                    </div>
+
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group col-md-7" id="UniversityList">
+                                        <div>
+                                            <label for="University" class="control-label">Institution Attended </label>
+                                        </div>
+                                        <div>
+                                            @Html.DropDownList("University", ViewBag.University as SelectList, "--Select Institution--", new { @class = "form-control", required = "required" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-5" id="newUniDiv" style="display: none">
+                                        <div>
+                                            <label for="newUniversity" class="control-label">Name of Institution</label>
+                                        </div>
+                                        <div>
+                                            <input type="text" class="form-control" name="newUniversity" id="newUniversity" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-5" id="LocationList">
+                                        <div>
+                                            <label for="Location" class="control-label">Institution Location </label>
+                                        </div>
+                                        <div>
+                                            @Html.DropDownList("Location", ViewBag.States as SelectList, "--Select Location--", new { @class = "form-control", required = "required" })
+                                            <input type="text" name="Location" id="Location" class="form-control newLocation" style="display: none" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group col-md-4">
+                                        <div>
+                                            <label for="Course" class="control-label">Course </label>
+                                        </div>
+                                        <div>
+                                            @Html.DropDownList("Course", ViewBag.Courses as SelectList, "--Select Course--", new { @class = "form-control", required = "required" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <div>
+                                            <label for="Qualification" class="control-label">Qualification</label>
+                                        </div>
+                                        <div>
+                                            @Html.DropDownList("Qualification", new List<SelectListItem>
+                                                                                  {
+                                                                                        new SelectListItem{ Text="--Select Qualification-- ", Value = "" },
+                                                                                        new SelectListItem{ Text="BSc", Value = "BSc" },
+                                                                                        new SelectListItem{ Text="MSc", Value = "MSc" }
+
+                                                                                   }, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <div>
+                                            <label for="Grade" class="control-label">Grade</label>
+                                        </div>
+                                        <div>
+                                            @Html.DropDownList("Grade", new List<SelectListItem>
+                                                                                   {
+                                                                                        new SelectListItem{ Text="--Select Grade-- ", Value = "" },
+                                                                                        new SelectListItem{ Text="First Class", Value = "FirstClass" },
+                                                                                        new SelectListItem{ Text="Second Class Upper", Value = "SecondClassUpper" },
+                                                                                        new SelectListItem{ Text="Second Class Lower", Value = "SecondClassLower" },
+                                                                                        new SelectListItem{ Text="Pass", Value = "Pass" }
+
+                                                                                    }, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group col-md-4">
+                                        <div>
+                                            <label for="YearOfGraduation" class="control-label">Year of Graduation </label>
+                                        </div>
+                                        <div>
+                                            <select id="YearOfGraduation" name="YearOfGraduation" class="form-control">
+                                                <option value="">--Select Year--</option>
+                                                @foreach (var item in ViewBag.Year)
+                            {
+                                <option value="@item">@item</option>
+        }
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <hr />
+                            <a href="#" id="addEdu" class="btn btn-default">Add Institution</a>
+                            <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
+                        </div>
+                    </div>
+
+                <div class="panel panel-primary setup-content" id="step-3">
+                    <div class="panel-heading" style="background-color: #03b2ac; color: white">
+                        <h3 class="panel-title">Experience</h3>
+                    </div>
+                    <div class="col-md-12">
+                        <br />
+                        <p class="alert alert-danger" id="eduAlert" style="display: none"> Enter all field to add Institution</p>
+
+                        <div style="border: 1px solid gray; border-radius: 20px">
+                            <table class="table table-responsive" id="expList">
+                                <tr>
+                                    <th>Employer Name</th>
+                                    <th>Job Title </th>
+                                    <th>Start Date</th>
+                                    <th>End Date </th>
+                                    <th>Action</th>
+                                </tr>
+                                @if (ViewBag.Experience.Count > 0)
+                                {
+                                    foreach (var item in ViewBag.Experience)
+                                    {
+                                        var id = "exp" + item.Id.ToString();
+                                        <tr id="@id">
+                                            <td> @item.EmployerName </td>
+                                            <td> @item.JobTitle </td>
+                                            <td> @String.Format("{0:yyyy-MM-dd}", item.StartDate)</td>
+                                            <td> @String.Format("{0:yyyy-MM-dd}", item.EndDate)</td>
+                                            <td><a onclick="delServerExp(@item.Id)" class="delFunc pull-right">delete</a>
+                                            <td>
+                                        </tr>
+                                    }
+                                }
+                            </table>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group col-md-7">
+                                    <div>
+                                        <label for="EmployerName" class="control-label">Employer Name </label>
+                                    </div>
+                                    <div>
+                                        <input type="text" name="EmployerName" id="EmployerName" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-5">
+                                    <div>
+                                        <label for="JobTitle" class="control-label">Job Title </label>
+                                    </div>
+                                    <div>
+                                        <input type="text" name="JobTitle" id="JobTitle" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group col-md-12">
+                                    <div>
+                                        <label for="Address" class="control-label">Address </label>
+                                    </div>
+                                    <div>
+                                        <input type="text" name="Address" id="Address" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group col-md-4">
+                                    <div>
+                                        <label for="EmployerLocation" class="control-label">Employer Location </label>
+                                    </div>
+                                    <div>
+                                        @Html.DropDownList("EmployerLocation", ViewBag.Countries as SelectList, "--Select Location--", new { @class = "form-control", required = "required" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <div>
+                                        <label for="EmployerState" class="control-label">Employer State </label>
+                                    </div>
+                                    <div>
+                                        @Html.DropDownList("EmployerState", ViewBag.States as SelectList, "--Select State--", new { @class = "form-control", required = "required" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <div>
+                                        <label for="EmployerCity" class="control-label">Employer City </label>
+                                    </div>
+                                    <div>
+                                        <input type="text" name="EmployerCity" id="EmployerCity" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group col-md-6">
+                                    <div>
+                                        <label for="Description" class="control-label">Job Description </label>
+                                    </div>
+                                    <div>
+                                        <textarea name="Description" id="Description" class="form-control" rows="7"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <div>
+                                        <label for="Accomplishment" class="control-label">Accomplishment </label>
+                                    </div>
+                                    <div>
+                                        <textarea name="Accomplishment" id="Accomplishment" class="form-control" rows="7"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group col-md-2">
+                                    <div>
+                                        <label for="IsCurrentJob" class="control-label"></label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" name="IsCurrentJob" id="IsCurrentJob" value="true">Current Job</label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-5">
+                                    <div>
+                                        <label for="StartDate" class="control-label">Start Date </label>
+                                    </div>
+                                    <div>
+                                        <input type="date" name="StartDate" id="StartDate" class="form-control" placeholder="mm/dd/yyyy" />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-5" id="endDateDiv">
+                                    <div>
+                                        <label for="EndDate" class="control-label">End Date </label>
+                                    </div>
+                                    <div>
+                                        <input type="date" name="EndDate" id="EndDate" class="form-control" placeholder="mm/dd/yyyy" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <a href="#" id="addExp" class="btn btn-default">Add Experience</a>
+                        <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
+                    </div>
+                </div>
+
+                <div class="panel panel-primary setup-content" id="step-4">
+                    <div class="panel-heading" style="background-color: #03b2ac; color: white">
+                        <h3 class="panel-title">Upload Document</h3>
+                    </div>
+                    <div class="panel-body">
+
+                        @*<div class="form-group">
+                                <label for="imgFile" class="control-label">Passport Image</label>
+                                <input class="form-control" type="file" name="imgFile" id="imgFile" />
+                            </div>*@
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="uploadedFile">
+
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group col-md-4">
+                                    <div>
+                                        <label for="fileUpload" class="control-label">Upload Document Files</label>
+                                    </div>
+                                    <div>
+                                        <input class="form-control" type="file" name="fileUpload" id="fileUpload" />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <div>
+                                        <label for="fileType" class="control-label">file Type</label>
+                                    </div>
+                                    <div>
+                                        @Html.DropDownList("fileType", new List<SelectListItem>
+                                                                       {
+                                                                            new SelectListItem{ Text="--Select File Type-- ", Value = "" },
+                                                                            new SelectListItem{ Text="CV", Value = "CV" },
+                                                                            new SelectListItem{ Text="BSc Certificate", Value = "BScCertificate" },
+                                                                            new SelectListItem{ Text="MSc Certificate", Value = "MScCertificate" },
+                                                                            new SelectListItem{ Text="NYSC Certificate", Value = "NYSCCertificate" },
+                                                                            new SelectListItem{ Text="OLevel Certificate", Value = "OlevelCertificate" },
+                                                                            new SelectListItem{ Text="Birth Certificate", Value = "BirthCertificate" },
+                                                                            new SelectListItem{ Text="Other Certificate", Value = "others" }
+
+                                                                        }, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4" id="certName" style="display: none">
+                                    <div>
+                                        <label for="fileType" class="control-label">Certificate Name</label>
+                                    </div>
+                                    <div>
+                                        <input type="text" name="other" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <div>
+                                        <label class="control-label"> </label>
+                                    </div>
+                                    <div>
+                                        <a href="#" id="uploadBtn" class=" form-control btn btn-primary">Upload</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*<a href="#" id="submitBtn">Submit</a>*@
+                        <button class="btn btn-primary pull-right" type="submit" id="submitBtn">Submit</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        var eduArr = []
+        var count = 0
+
+        var expArr = []
+        var expCount = 0
+        var IsCurrentjob = false
+
+
+        //Add others options to  University List
+        $(document).ready(function () {
+            $("#University").append('<option value="others"> Others</option>');
+        })
+
+        $("#University").change(function () {
+            if ($(this).val() == "others") {
+                $("#UniversityList").removeClass("col-md-7");
+                $("#LocationList").removeClass("col-md-5");
+                $("#newUniDiv").show()
+                $("#Location").hide();
+                $(".newLocation").show();
+                $("#UniversityList").addClass("col-md-4");
+                $("#LocationList").addClass("col-md-3");
+            } else {
+                $("#UniversityList").addClass("col-md-7");
+                $("#LocationList").addClass("col-md-5");
+                $("#newUniDiv").hide();
+                $("#Location").show();
+                $(".newLocation").hide();
+                $("#UniversityList").removeClass("col-md-4");
+                $("#LocationList").removeClass("col-md-3");
+            }
+        })
+
+
+        //check the value of Is Current job
+        $("#IsCurrentJob").click(function () {
+            if ($(this).is(":checked")) {
+                IsCurrentjob = true
+                $("#endDateDiv").hide();
+            }
+            else {
+                $("#endDateDiv").show();
+                IsCurrentjob = false
+            }
+        })
+
+        // delete institution from institution list
+        function delFunc(i) {
+            var n = Number(i)
+            document.getElementsByClassName("edu")[n].style.display = "none";
+            eduArr.splice(n, 1);
+            //if (eduArr.length == 0) {
+            //    //console.log(eduArr)
+            //    $("#eduList").hide();
+            //}
+        }
+        function delServerEdu(id) {
+            $.ajax({
+                type: "GET",
+                url: "/Home/DeleteEducation/" + id,
+                dataType: 'json',
+                cache: false,
+                success: function (message) {
+                    document.getElementById(id).style.display = "none";
+                    console.log(message);
+                },
+                error: function () {
+                    alert("Error posting Education!");
+                }
+            });
+        }
+
+        // delete experience from experience list
+        function expDelFunc(i) {
+            var n = Number(i)
+            document.getElementsByClassName("exp")[n].style.display = "none";
+            expArr.splice(n, 1);
+            //if (expArr.length == 0) {
+            //    //console.log(eduArr)
+            //    $("#epxList").hide();
+            //}
+        }
+
+        function delServerExp(id) {
+            $.ajax({
+                type: "GET",
+                url: "/Home/DeleteExperience/" + id,
+                dataType: 'json',
+                cache: false,
+                success: function (message) {
+                    document.getElementById("exp" + id).style.display = "none";
+                    console.log(message);
+                },
+                error: function () {
+                    alert("Error posting Experience!");
+                }
+            });
+        }
+
+        //add experience to experience array
+        $("#addExp").click(function () {
+            if ($("#EmployerName").val() == "" ||
+                $("#JobTitle").val() == "" ||
+                $("#Description").val() == "" ||
+                $("#StartDate").val() == "") {
+                $("#eduAlert").show()
+                return
+            }
+            $("#expList").show();
+            var newExp = {};
+            newExp.EmployerName = $("#EmployerName").val();
+            newExp.Address = $("#Address").val();
+            newExp.EmployerLocation = $("#EmployerLocation").val();
+            newExp.EmployerState = $("#EmployerState").val();
+            newExp.EmployerCity = $("#EmployerCity").val();
+            newExp.JobTitle = $("#JobTitle").val();
+            newExp.JobDescription = $("#Description").val();
+            newExp.StartDate = $("#StartDate").val();
+            newExp.EndDate = $("#EndDate").val();
+            newExp.Accomplishment = $("#Accomplishment").val();
+            newExp.IsCurrentJob = IsCurrentjob;
+
+
+            expArr.push(newExp);
+            $("#expList").append('<tr class="exp" id="exp' + String(expCount) + '" > <td>' + $("#EmployerName").val() + ' </td ><td>' + $("#JobTitle").val() + '</td><td>' + $("#StartDate").val() + '</td><td>' + $("#EndDate").val() + '</td> <td><a onclick="expDelFunc(\'' + expCount + '\')" class="delFunc pull-right">delete<a><td></tr>');
+            expCount++
+            $("#EmployerName").val("");
+            $("#Address").val("");
+            $("#EmployerLocation").val("");
+            $("#EmployerState").val("");
+            $("#EmployerCity").val("");
+            $("#JobTitle").val("");
+            $("#Description").val("");
+            $("#StartDate").val("");
+            $("#EndDate").val("");
+            $("#Accomplishment").val("");
+            $("#Description").val("");
+            $(".alert").hide()
+            console.log(newExp);
+        })
+
+        //Add Education to a list
+        $("#addEdu").click(function () {
+            if ($("#University").val() == "" ||
+                $("#Location").val() == "" ||
+                $("#Grade").val() == "" ||
+                $("#Qualification").val() == "" ||
+                $("#YearOfGraduation").val() == "" ||
+                $("#Course").val() == "") {
+                $("#eduAlert").show()
+                return
+            }
+
+            var university = $("#University").val();
+            if (university == "others") {
+                university = $("#newUniversity").val();
+            }
+
+            $("#eduList").show();
+            var newEdu = {};
+            newEdu.University = university;
+            newEdu.Location = $("#Location").val();
+            newEdu.Grade = $("#Grade").val();
+            newEdu.Qualification = $("#Qualification").val();
+            newEdu.YearOfGraduation = Number($("#YearOfGraduation").val());
+            newEdu.Course = $("#Course").val();
+
+            eduArr.push(newEdu);
+            $("#eduList").append('<tr class="edu" id="edu' + String(count) + '" > <td>' + $("#University").val() + ' </td ><td>' + $("#Course").val() + '</td><td>' + $("#Qualification").val() + '</td><td>' + $("#Grade").val() + '</td> <td><a onclick="delFunc(\'' + count + '\')" class="delFunc pull-right">delete<a><td></tr>');
+            count++
+            $("#University").val("");
+            $("#Location").val("");
+            $("#Grade").val("");
+            $("#Qualification").val("");
+            $("#YearOfGraduation").val("");
+            $("#Course").val("");
+            $(".alert").hide()
+            //console.log(newEdu);
+        })
+
+        $("#fileType").change(function () {
+            if ($(this).val() == "others") {
+                $("#certName").show();
+            } else {
+                $("#certName").hide();
+            }
+        })
+
+
+        // Upload file to the database
+        $("#uploadBtn").click(function () {
+            if ($("#fileType").val() == "") {
+                alert("Please select the file type");
+                return;
+            }
+            var fileUpload = $("#fileUpload").get(0);
+            var files = fileUpload.files;
+            var data = new FormData();
+            var fileType = $("#fileType").val();
+            if (fileType == "others") {
+                if ($("#certName").val() == "") {
+                    alert("Please enter certificate name");
+                    return;
+                }
+                fileType = $("#certName").val();
+            }
+            data.append('FileType', fileType);
+
+            for (var i = 0; i < files.length; i++) {
+                data.append(files[i].name, files[i]);
+            }
+            $.ajax({
+                type: "POST",
+                url: "/Home/UploadFiles",
+                contentType: false,
+                processData: false,
+                data: data,
+                success: function (message) {
+                    if (message.error == true) {
+                        alert(message.result);
+                    }
+                    else {
+                        $("#uploadedFile").append('<p> You have uploaded your ' + $("#fileType").val() + ' successfully</p>')
+                        $("#fileType").val("");
+                        $("#fileUpload").val("");
+                        $("#certName").hide();
+                        //alert(message);
+                    }
+
+                },
+                error: function () {
+                    alert("There was error uploading files!");
+                }
+            });
+        });
+
+
+        $("#submitBtn").click(function () {
+            if (eduArr.length > 0) {
+                for (var i = 0; i < eduArr.length; i++) {
+                    console.log("runing edu")
+                    $.ajax({
+                        type: "POST",
+                        url: "/Home/AddEducation",
+                        data: eduArr[i],
+                        success: function (message) {
+                            console.log(message);
+                        },
+                        error: function () {
+                            alert("Error posting Education !");
+                        }
+                    });
+                }
+            }
+        })
+
+        $("#submitBtn").click(function () {
+            if (expArr.length > 0) {
+                for (var i = 0; i < expArr.length; i++) {
+                    console.log("runing exp")
+                    $.ajax({
+                        type: "POST",
+                        url: "/Home/AddExperience",
+                        data: expArr[i],
+                        success: function (message) {
+                            console.log(message);
+                        },
+                        error: function () {
+                            alert("Error posting Experience!");
+                        }
+                    });
+                }
+            }
+        })
+
+
+
+
+
+
+
+
+
+
+
+        $(document).ready(function () {
+
+            var navListItems = $('div.setup-panel div a'),
+                allWells = $('.setup-content'),
+                allNextBtn = $('.nextBtn');
+
+            allWells.hide();
+
+            navListItems.click(function (e) {
+                e.preventDefault();
+                var $target = $($(this).attr('href')),
+                    $item = $(this);
+
+                if (!$item.hasClass('disabled')) {
+                    navListItems.removeClass('btn-pal').addClass('btn-default');
+                    $item.addClass('btn-pal');
+                    allWells.hide();
+                    $target.show();
+                    $target.find('input:eq(0)').focus();
+                }
+            });
+
+            allNextBtn.click(function () {
+                var curStep = $(this).closest(".setup-content"),
+                    curStepBtn = curStep.attr("id"),
+                    nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+                    curInputs = curStep.find("input[type='text'],input[type='url']"),
+                    isValid = true;
+
+                $(".form-group").removeClass("has-error");
+                for (var i = 0; i < curInputs.length; i++) {
+                    if (!curInputs[i].validity.valid) {
+                        isValid = false;
+                        $(curInputs[i]).closest(".form-group").addClass("has-error");
+                    }
+                }
+
+                if (isValid) nextStepWizard.removeAttr('disabled').trigger('click');
+            });
+
+            $('div.setup-panel div a.btn-pal').trigger('click');
+        });
+    </script>
+}

@@ -1,0 +1,159 @@
+﻿@model RecruitmentManagement.DAL.Vacancy
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+@{
+    ViewBag.Title = "Vacancy";
+
+    var region = "";
+    if (Model.JobRegion == "1")
+    {
+        region = "South East";
+    }
+    if (Model.JobRegion == "2")
+    {
+        region = "South South";
+    }
+    if (Model.JobRegion == "3")
+    {
+        region = "South West";
+    }
+    if (Model.JobRegion == "4")
+    {
+        region = "North East";
+    }
+    if (Model.JobRegion == "5")
+    {
+        region = "North Central";
+    }
+    if (Model.JobRegion == "6")
+    {
+        region = "North West";
+    }
+}
+
+<div class="content">
+    <div style="padding: 20px; padding-top: 10px">
+        <h3>
+            Delete Vacancy
+        </h3>
+        <p>Are you sure you want to delete this?</p>
+    </div>
+</div>
+
+<div class="content">
+    <div style="padding: 20px">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Qualification)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Qualification)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.JobRegion)
+            </dt>
+
+            <dd>
+                @region
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.JobLocation)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.JobLocation)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.EmploymentType)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.EmploymentType)
+            </dd>
+
+            @if (Model.EmploymentType == "contract")
+            {
+                <dt>
+                    @Html.DisplayNameFor(model => model.Duration)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Duration) Months
+                </dd>
+            }
+
+            @*<dt>
+                    @Html.DisplayNameFor(model => model.Department)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Department)
+                </dd>*@
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Level)
+            </dt>
+
+            <dd>
+                <p> @Html.DisplayFor(model => model.Level)</p>
+
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+
+            <dd>
+                <p> @Html.DisplayFor(model => model.Description)</p>
+
+            </dd>
+
+            <dt>
+                Functions
+            </dt>
+
+            <dd>
+                @foreach (var item in ViewBag.VacancyFunctions)
+                {
+                    <p>@item.FunctionDescription</p>
+
+                }
+
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Deadline)
+            </dt>
+
+            <dd>
+                @String.Format("{0:MM/dd/yyyy}", Model.Deadline)
+            </dd>
+        </dl>
+         @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-default" /> |
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+        }
+
+    </div>
+</div>
+
+

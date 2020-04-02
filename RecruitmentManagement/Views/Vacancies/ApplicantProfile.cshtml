@@ -1,0 +1,156 @@
+﻿@model RecruitmentManagement.DAL.Profile
+
+@{
+    ViewBag.Title = "ApplicantProfile";
+}
+
+<div class="content">
+    <div style="padding: 20px; padding-top: 10px">
+        <h3>
+            @Model.FirstName @Model.Surname Profile
+        </h3>
+    </div>
+</div>
+
+<div class="content">
+    <div style="padding: 20px;">
+        <dl class="dl-horizontal">
+
+            <dt>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.FirstName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.OtherName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.OtherName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Surname)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Surname)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.email)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.email)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.dob)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.dob)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MobileNumber)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MobileNumber)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Address)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Address)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Gender)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Gender)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.StateOfOrigin)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.StateOfOrigin)
+            </dd>
+            <dt>
+                Education History
+            </dt>
+
+            <dd>
+                @foreach (var item in ViewBag.Education)
+                {
+                    <div>
+                        <b>University: </b> @item.University <br />
+                        <b>Location: </b>  @item.Location <br />
+                        <b>Qualification: </b> @item.Qualification <br />
+                        <b>Course: </b>  @item.Course <br />
+                        <b>Grade: </b> @item.Grade <br />
+                        <b>Year of Graduation: </b> @item.YearOfGraduation  
+                    </div>
+                }
+                    <br />
+            </dd>
+
+            <dt>
+                Experience History
+            </dt>
+
+            <dd>
+                @foreach (var item in ViewBag.Experience)
+                {
+                    <div>
+                        <p><b>@item.EmployerName</b></p>
+                        @item.Address
+                        @item.EmployerLocation @item.EmployerState @item.EmployerCity <br />
+                        From @String.Format("{0:dd, MMMM yyyy}", item.StartDate) -
+                        @{
+                            if (item.IsCurrentJob == false) {
+                               <span> @String.Format("{0:dd, MMMM yyyy}", item.EndDate)</span> <br />
+                            }
+                            if (item.IsCurrentJob == true) {
+                                <span>till date</span> <br />
+                            }
+
+                        }
+                        @item.JobTitle <br /> <br />
+                        <b>Job Description</b> <br />
+                        @item.JobDescription <br /> <br />
+                        <b>Accomplishment</b> <br />
+                        @item.Accomplishment
+
+                     </div>
+                }
+                    <br />
+            </dd>
+
+            <dt>
+               Download Document
+            </dt>
+
+            <dd>
+                 @foreach (var item in ViewBag.Documents)
+                 {
+                     <a href="@Url.Action("DownloadFile", "Vacancies", new { filePath = item.FilePath, fileName= Model.FirstName + Model.Surname + item.FileType + item.ExtensionType })">Download @item.FileType</a> <br />
+                 }
+            </dd>
+
+        </dl>
+    </div>
+</div>
+
+
