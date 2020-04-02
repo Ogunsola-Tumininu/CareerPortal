@@ -33,8 +33,8 @@ namespace RecruitmentManagement.Controllers
             if (Level != null)
             {
                 vacancies = vacancies.Where(v => v.Level == Level).ToList();
-            }
-            return View(vacancies);
+            }  
+            return View(vacancies); 
         }
 
         public ActionResult Vacancy(int Id)
